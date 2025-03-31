@@ -1,0 +1,863 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nazari Mode - Ma Liste d'Envie</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+        
+        body {
+            background-color: #f9f9f9;
+        }
+        
+        /* Bandeau promotionnel */
+        .promo-banner {
+            background-color: #000;
+            color: #fff;
+            padding: 8px 0;
+            text-align: center;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .promo-text {
+            white-space: nowrap;
+            animation: scroll-left 20s linear infinite;
+            font-weight: bold;
+            font-size: 12px;
+        }
+        
+        @keyframes scroll-left {
+            0% { transform: translateX(100%); }
+            100% { transform: translateX(-100%); }
+        }
+        
+        /* Barre de navigation */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 5%;
+            background-color: #fff;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            flex-wrap: wrap;
+        }
+        
+        .search {
+            display: flex;
+            align-items: center;
+            width: 200px;
+            margin: 5px 0;
+        }
+        
+        .search input {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 20px;
+        }
+        
+        .user-nav {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            margin: 5px 0;
+        }
+        
+        .user-nav a {
+            text-decoration: none;
+            color: #333;
+            font-size: 14px;
+        }
+        
+        .active-nav {
+            font-weight: bold;
+            position: relative;
+        }
+        
+        .active-nav::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background-color: #e91e63;
+        }
+        
+        /* Menu burger pour mobile */
+        .menu-toggle {
+            display: none;
+            cursor: pointer;
+            font-size: 24px;
+        }
+        
+        /* Titre principal */
+        .main-title {
+            text-align: center;
+            font-family: 'Cinzel', serif;
+            font-size: 32px;
+            margin: 30px 0 20px;
+            color: #333;
+        }
+        
+        .page-title {
+            text-align: center;
+            font-size: 24px;
+            margin-bottom: 30px;
+            color: #666;
+        }
+        
+        /* Navigation secondaire */
+        .secondary-nav {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+            padding: 0 5%;
+        }
+        
+        .secondary-nav a {
+            text-decoration: none;
+            color: #333;
+            padding: 8px 15px;
+            border-radius: 20px;
+            background-color: #f0f0f0;
+            transition: all 0.3s;
+        }
+        
+        .secondary-nav a:hover,
+        .secondary-nav a.active {
+            background-color: #333;
+            color: #fff;
+        }
+        
+        /* Section liste d'envie */
+        .wishlist-section {
+            padding: 20px 5%;
+        }
+        
+        .wishlist-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        
+        .wishlist-count {
+            font-size: 18px;
+            color: #666;
+        }
+        
+        .wishlist-actions {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+        
+        .action-btn {
+            padding: 8px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 14px;
+        }
+        
+        .primary-btn {
+            background-color: #e91e63;
+            color: #fff;
+        }
+        
+        .primary-btn:hover {
+            background-color: #c2185b;
+        }
+        
+        .secondary-btn {
+            background-color: #f0f0f0;
+            color: #333;
+        }
+        
+        .secondary-btn:hover {
+            background-color: #ddd;
+        }
+        
+        /* Grille d'articles */
+        .wishlist-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 25px;
+        }
+        
+        .wishlist-item {
+            background-color: #fff;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            transition: all 0.3s;
+            position: relative;
+        }
+        
+        .wishlist-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .item-image {
+            width: 100%;
+            height: auto;
+            aspect-ratio: 3/4;
+            object-fit: cover;
+        }
+        
+        .item-info {
+            padding: 15px;
+        }
+        
+        .item-name {
+            font-size: 16px;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        
+        .item-price {
+            color: #e91e63;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        
+        .item-details {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 10px;
+        }
+        
+        .item-size,
+        .item-color {
+            font-size: 13px;
+            color: #666;
+        }
+        
+        .item-actions {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 15px;
+        }
+        
+        .item-btn {
+            padding: 8px 12px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 13px;
+            flex-grow: 1;
+            text-align: center;
+        }
+        
+        .add-cart-btn {
+            background-color: #333;
+            color: #fff;
+            margin-right: 5px;
+        }
+        
+        .add-cart-btn:hover {
+            background-color: #000;
+        }
+        
+        .remove-btn {
+            background-color: #f0f0f0;
+            color: #333;
+            margin-left: 5px;
+        }
+        
+        .remove-btn:hover {
+            background-color: #ddd;
+        }
+        
+        .discount-badge {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background-color: #e91e63;
+            color: #fff;
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+        
+        .empty-wishlist {
+            text-align: center;
+            padding: 40px 0;
+        }
+        
+        .empty-wishlist i {
+            font-size: 60px;
+            color: #ddd;
+            margin-bottom: 20px;
+        }
+        
+        .empty-wishlist h3 {
+            font-size: 22px;
+            margin-bottom: 15px;
+            color: #666;
+        }
+        
+        .empty-wishlist p {
+            font-size: 16px;
+            color: #999;
+            margin-bottom: 20px;
+        }
+        
+        /* Section recommandations */
+        .recommended-section {
+            padding: 40px 5%;
+            background-color: #f5f5f5;
+            margin-top: 50px;
+        }
+        
+        .section-title {
+            font-size: 22px;
+            margin-bottom: 25px;
+            text-align: center;
+            position: relative;
+            padding-bottom: 10px;
+        }
+        
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 2px;
+            background-color: #e91e63;
+        }
+        
+        .recommended-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 20px;
+        }
+        
+        /* Footer */
+        .footer {
+            background-color: #f5f5f5;
+            color: #333;
+            padding: 50px 0 0 0;
+            margin-top: 50px;
+            border-top: 1px solid #ddd;
+        }
+        
+        .footer-content {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 5%;
+        }
+        
+        .footer-section {
+            flex: 1;
+            min-width: 250px;
+            margin-bottom: 30px;
+            padding: 0 15px;
+        }
+        
+        .footer-title {
+            font-family: 'Cinzel', serif;
+            font-size: 18px;
+            margin-bottom: 20px;
+            position: relative;
+            padding-bottom: 10px;
+        }
+        
+        .footer-title:after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 40px;
+            height: 2px;
+            background-color: #333;
+        }
+        
+        .footer-section p {
+            line-height: 1.6;
+            margin-bottom: 15px;
+            color: #666;
+        }
+        
+        .footer-section ul {
+            list-style: none;
+            margin-top: 0;
+        }
+        
+        .footer-section ul li {
+            margin-bottom: 8px;
+        }
+        
+        .footer-section ul li a {
+            color: #666;
+            text-decoration: none;
+            transition: color 0.3s;
+            font-size: 13px;
+        }
+        
+        .footer-section ul li a:hover {
+            color: #000;
+        }
+        
+        .social-icons {
+            display: flex;
+            margin-top: 15px;
+            flex-wrap: wrap;
+        }
+        
+        .social-icon {
+            display: inline-block;
+            width: 36px;
+            height: 36px;
+            background-color: #333;
+            color: #fff;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 36px;
+            margin-right: 10px;
+            margin-bottom: 10px;
+            transition: all 0.3s;
+        }
+        
+        .social-icon:hover {
+            background-color: #000;
+            transform: translateY(-3px);
+        }
+        
+        .footer-bottom {
+            background-color: #eee;
+            padding: 20px 5%;
+            text-align: center;
+            color: #666;
+            font-size: 14px;
+            margin-top: 30px;
+        }
+        
+        .payment-methods {
+            margin-bottom: 15px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+        }
+        
+        .payment-methods span {
+            margin-right: 10px;
+            margin-bottom: 10px;
+            vertical-align: middle;
+        }
+        
+        .payment-methods img {
+            margin: 0 5px;
+            vertical-align: middle;
+        }
+        
+        .copyright {
+            margin: 0;
+        }
+        
+        /* Styles de notification */
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background-color: #333;
+            color: #fff;
+            padding: 15px 20px;
+            border-radius: 4px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            z-index: 1000;
+            transition: all 0.3s;
+            transform: translateX(120%);
+        }
+        
+        .notification.show {
+            transform: translateX(0);
+        }
+        
+        .notification-close {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            background: none;
+            border: none;
+            color: #fff;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        
+        /* Media Queries */
+        @media screen and (max-width: 1024px) {
+            .wishlist-grid,
+            .recommended-grid {
+                grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            }
+        }
+        
+        @media screen and (max-width: 768px) {
+            .wishlist-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .wishlist-grid,
+            .recommended-grid {
+                grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            }
+            
+            .secondary-nav {
+                gap: 10px;
+            }
+            
+            .secondary-nav a {
+                padding: 6px 12px;
+                font-size: 13px;
+            }
+            
+            .footer-section {
+                min-width: 200px;
+                flex: 0 0 50%;
+            }
+        }
+        
+        @media screen and (max-width: 576px) {
+            .navbar {
+                justify-content: center;
+                flex-direction: column;
+            }
+            
+            .search {
+                width: 100%;
+                margin-bottom: 10px;
+            }
+            
+            .user-nav {
+                width: 100%;
+                justify-content: space-around;
+                margin-top: 10px;
+            }
+            
+            .main-title {
+                font-size: 24px;
+            }
+            
+            .page-title {
+                font-size: 20px;
+            }
+            
+            .wishlist-grid,
+            .recommended-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 15px;
+            }
+            
+            .item-name {
+                font-size: 14px;
+            }
+            
+            .item-info {
+                padding: 10px;
+            }
+            
+            .item-btn {
+                padding: 6px 10px;
+                font-size: 12px;
+            }
+            
+            .footer-section {
+                flex: 0 0 100%;
+            }
+            
+            .notification {
+                left: 20px;
+                right: 20px;
+                text-align: center;
+            }
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+</head>
+<body>
+    <!-- Bandeau promotionnel avec animation -->
+    <div class="promo-banner">
+        <div class="promo-text">
+            -30% SUR LA NOUVELLE COLLECTION "NAZARI30" • LIVRAISON GRATUITE DÈS 50€
+        </div>
+    </div>
+    
+    <!-- Barre de navigation -->
+    <div class="navbar">
+        <div class="search">
+            <input type="text" placeholder="Rechercher...">
+        </div>
+        
+        <div class="user-nav">
+            <a href="index.html"><i class="fas fa-home"></i> Accueil</a>
+            <a href="liste-envie.html" class="active-nav"><i class="far fa-heart"></i> Liste d'envie</a>
+            <a href="compte.html"><i class="far fa-user"></i> Mon compte</a>
+            <a href="panier.html"><i class="fas fa-shopping-bag"></i> Panier<span id="cart-count" class="cart-count">0</span></a>
+            <a href="connexion.html"><i class="fas fa-sign-in-alt"></i> Connexion</a>
+        </div>
+    </div>
+    
+    <!-- Titre principal -->
+    <h1 class="main-title"><a href="index.html" style="text-decoration: none; color: inherit;">Nazari Mode</a></h1>
+    <h2 class="page-title">Ma liste d'envie</h2>
+    
+    <!-- Navigation secondaire -->
+    <div class="secondary-nav">
+        <a href="index.html">Accueil</a>
+        <a href="nouveautes.html">Nouveautés</a>
+        <a href="robes.html">Robes</a>
+        <a href="tops.html">Tops</a>
+        <a href="jupes.html">Jupes</a>
+        <a href="ensembles.html">Ensembles</a>
+    </div>
+    
+    <!-- Section liste d'envie -->
+    <section class="wishlist-section">
+        <div class="wishlist-header">
+            <div class="wishlist-count">
+                5 article(s) dans votre liste d'envie
+            </div>
+            <div class="wishlist-actions">
+                <button class="action-btn primary-btn" id="add-all-to-cart"><i class="fas fa-shopping-cart"></i> Tout ajouter au panier</button>
+                <button class="action-btn secondary-btn" id="clear-wishlist"><i class="far fa-trash-alt"></i> Vider la liste</button>
+            </div>
+        </div>
+        
+        <!-- Articles de la liste d'envie -->
+        <div class="wishlist-grid">
+            <div class="wishlist-item">
+                <div class="discount-badge">-30%</div>
+                <img src="/jilbab1.png" alt="Robe Élégance" class="item-image">
+                <div class="item-info">
+                    <div class="item-name">Robe Élégance Soirée</div>
+                    <div class="item-price">
+                        <span style="text-decoration: line-through; color: #999; margin-right: 5px;">79,99 €</span>
+                        55,99 €
+                    </div>
+                    <div class="item-details">
+                        <span class="item-size">Taille: M</span>
+                        <span class="item-color">Couleur: Noir</span>
+                    </div>
+                    <div class="item-actions">
+                        <button class="item-btn add-cart-btn" data-id="1" data-name="Robe Élégance Soirée" data-price="55.99" data-img="/jilbab1.png"><i class="fas fa-shopping-cart"></i> Ajouter</button>
+                        <button class="item-btn remove-btn" data-id="1"><i class="far fa-trash-alt"></i> Retirer</button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="wishlist-item">
+                <img src="/jilbab5.png" alt="Robe Cocktail" class="item-image">
+                <div class="item-info">
+                    <div class="item-name">Robe Cocktail Paillettes</div>
+                    <div class="item-price">69,99 €</div>
+                    <div class="item-details">
+                        <span class="item-size">Taille: S</span>
+                        <span class="item-color">Couleur: Bleu</span>
+                    </div>
+                    <div class="item-actions">
+                        <button class="item-btn add-cart-btn" data-id="2" data-name="Robe Cocktail Paillettes" data-price="69.99" data-img="/jilbab5.png"><i class="fas fa-shopping-cart"></i> Ajouter</button>
+                        <button class="item-btn remove-btn" data-id="2"><i class="far fa-trash-alt"></i> Retirer</button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="wishlist-item">
+                <img src="/jilbab7.png" alt="Robe Asymétrique" class="item-image">
+                <div class="item-info">
+                    <div class="item-name">Robe Asymétrique Rouge</div>
+                    <div class="item-price">75,99 €</div>
+                    <div class="item-details">
+                        <span class="item-size">Taille: M</span>
+                        <span class="item-color">Couleur: Rouge</span>
+                    </div>
+                    <div class="item-actions">
+                        <button class="item-btn add-cart-btn" data-id="3" data-name="Robe Asymétrique Rouge" data-price="75.99" data-img="/jilbab7.png"><i class="fas fa-shopping-cart"></i> Ajouter</button>
+                        <button class="item-btn remove-btn" data-id="3"><i class="far fa-trash-alt"></i> Retirer</button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="wishlist-item">
+                <div class="discount-badge">-20%</div>
+                <img src="/jilbab11.png" alt="Robe Motifs" class="item-image">
+                <div class="item-info">
+                    <div class="item-name">Robe Motifs Floraux</div>
+                    <div class="item-price">
+                        <span style="text-decoration: line-through; color: #999; margin-right: 5px;">59,99 €</span>
+                        47,99 €
+                    </div>
+                    <div class="item-details">
+                        <span class="item-size">Taille: L</span>
+                        <span class="item-color">Couleur: Multicolore</span>
+                    </div>
+                    <div class="item-actions">
+                        <button class="item-btn add-cart-btn" data-id="4" data-name="Robe Motifs Floraux" data-price="47.99" data-img="/jilbab11.png"><i class="fas fa-shopping-cart"></i> Ajouter</button>
+                        <button class="item-btn remove-btn" data-id="4"><i class="far fa-trash-alt"></i> Retirer</button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="wishlist-item">
+                <img src="/jilbab13.png" alt="Robe Bal" class="item-image">
+                <div class="item-info">
+                    <div class="item-name">Robe de Bal Princesse</div>
+                    <div class="item-price">129,99 €</div>
+                    <div class="item-details">
+                        <span class="item-size">Taille: S</span>
+                        <span class="item-color">Couleur: Bordeaux</span>
+                    </div>
+                    <div class="item-actions">
+                        <button class="item-btn add-cart-btn" data-id="5" data-name="Robe de Bal Princesse" data-price="129.99" data-img="/jilbab13.png"><i class="fas fa-shopping-cart"></i> Ajouter</button>
+                        <button class="item-btn remove-btn" data-id="5"><i class="far fa-trash-alt"></i> Retirer</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- État liste vide (caché par défaut) -->
+        <div class="empty-wishlist" style="display: none;">
+            <i class="far fa-heart"></i>
+            <h3>Votre liste d'envie est vide</h3>
+            <p>Explorez notre collection et ajoutez vos pièces préférées à votre liste d'envie</p>
+            <button class="action-btn primary-btn">Découvrir la collection</button>
+        </div>
+    </section>
+    
+    <!-- Section recommandations -->
+    <section class="recommended-section">
+        <h3 class="section-title">Vous pourriez aussi aimer</h3>
+        
+        <div class="recommended-grid">
+            <div class="wishlist-item">
+                <img src="/jilbab2.png" alt="Robe Bohème" class="item-image">
+                <div class="item-info">
+                    <div class="item-name">Robe Bohème Fleurie</div>
+                    <div class="item-price">59,99 €</div>
+                    <div class="item-actions">
+                        <button class="item-btn add-cart-btn" data-id="6" data-name="Robe Bohème Fleurie" data-price="59.99" data-img="/jilbab2.png"><i class="fas fa-shopping-cart"></i> Ajouter</button>
+                        <button class="item-btn remove-btn"><i class="far fa-heart"></i> Favori</button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="wishlist-item">
+                <img src="/jilbab3.png" alt="Robe Moulante" class="item-image">
+                <div class="item-info">
+                    <div class="item-name">Robe Moulante Noire</div>
+                    <div class="item-price">49,99 €</div>
+                    <div class="item-actions">
+                        <button class="item-btn add-cart-btn"><i class="fas fa-shopping-cart"></i> Ajouter</button>
+                        <button class="item-btn remove-btn"><i class="far fa-heart"></i> Favori</button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="wishlist-item">
+                <img src="/jilbab8.png" alt="Robe Dos-nu" class="item-image">
+                <div class="item-info">
+                    <div class="item-name">Robe Dos-nu Élégante</div>
+                    <div class="item-price">85,99 €</div>
+                    <div class="item-actions">
+                        <button class="item-btn add-cart-btn"><i class="fas fa-shopping-cart"></i> Ajouter</button>
+                        <button class="item-btn remove-btn"><i class="far fa-heart"></i> Favori</button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="wishlist-item">
+                <img src="/jilbab9.png" alt="Robe Été" class="item-image">
+                <div class="item-info">
+                    <div class="item-name">Robe Été Légère</div>
+                    <div class="item-price">45,99 €</div>
+                    <div class="item-actions">
+                        <button class="item-btn add-cart-btn"><i class="fas fa-shopping-cart"></i> Ajouter</button>
+                        <button class="item-btn remove-btn"><i class="far fa-heart"></i> Favori</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Notification (cachée par défaut) -->
+    <div class="notification" id="notification">
+        Article ajouté au panier
+        <button class="notification-close">&times;</button>
+    </div>
+    
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section about">
+                <h3 class="footer-title">À propos de Nazari Mode</h3>
+                <p>Depuis 2010, Nazari Mode propose des collections de vêtements élégants et raffinés pour toutes les femmes qui souhaitent allier style et confort au quotidien.</p>
+                <div class="social-icons">
+                    <a href="#" class="social-icon"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" class="social-icon"><i class="fab fa-instagram"></i></a>
+                    <a href="#" class="social-icon"><i class="fab fa-pinterest-p"></i></a>
+                    <a href="#" class="social-icon"><i class="fab fa-twitter"></i></a>
+                </div>
+            </div>
+            
+            <div class="footer-section links">
+                <h3 class="footer-title">Liens rapides</h3>
+                <ul>
+                    <li><a href="index.html">Accueil</a></li>
+                    <li><a href="nouveautes.html">Nouveautés</a></li>
+                    <li><a href="promotions.html">Promotions</a></li>
+                    <li><a href="catalogue.html">Catalogue</a></li>
+                    <li><a href="blog.html">Notre blog</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-section">
+                <h3 class="footer-title">Catégories</h3>
+                <ul>
+                    <li><a href="robes.html">Robes</a></li>
+                    <li><a href="tops.html">Tops</a></li>
+                    <li><a href="jupes.html">Jupes</a></li>
+                    <li><a href="pantalons.html">Pantalons</a></li>
+                    <li><a href="accessoires.html">Accessoires</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-section customer-service">
+                <h3 class="footer-title">Service client</h3>
+                <ul>
+                    <li><a href="livraison.html">Livraison</a></li>
+                    <li><a href="retours.html">Retours et échanges</a></li>
+                    <li><a href="faq.html">FAQ</a></li>
+                    <li><a href="cgv.html">Conditions générales</a></li>
+                    <li><a href="confidentialite.html">Politique de confidentialité</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-section contact">
+                <h3 class="footer-title">Contact</h3>
+                <p><i class="fas fa-map-marker-alt"></i> 123 Avenue de la Mode, 75008 Paris</p>

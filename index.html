@@ -45,15 +45,17 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 15px 50px;
+            padding: 15px 5%;
             background-color: #fff;
             box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            flex-wrap: wrap;
         }
         
         .search {
             display: flex;
             align-items: center;
             width: 200px;
+            margin: 5px 0;
         }
         
         .search input {
@@ -66,6 +68,8 @@
         .user-nav {
             display: flex;
             gap: 20px;
+            flex-wrap: wrap;
+            margin: 5px 0;
         }
         
         .user-nav a {
@@ -74,11 +78,18 @@
             font-size: 14px;
         }
         
+        /* Menu burger pour mobile */
+        .menu-toggle {
+            display: none;
+            cursor: pointer;
+            font-size: 24px;
+        }
+        
         /* Catégories */
         .main-title {
             text-align: center;
             font-family: 'Cinzel', serif;
-            font-size: 38px;
+            font-size: 32px;
             margin: 30px 0;
             color: #333;
         }
@@ -86,21 +97,24 @@
         .categories {
             display: flex;
             justify-content: center;
-            gap: 30px;
-            padding: 0 50px;
+            gap: 15px;
+            padding: 0 5%;
             margin-bottom: 40px;
+            flex-wrap: wrap;
         }
         
         .category {
             position: relative;
             cursor: pointer;
+            margin-bottom: 10px;
         }
         
         .category-title {
-            padding: 10px 20px;
+            padding: 10px 15px;
             border-bottom: 2px solid transparent;
             transition: all 0.3s;
             font-weight: bold;
+            text-align: center;
         }
         
         .category:hover .category-title {
@@ -111,26 +125,29 @@
             position: absolute;
             top: 100%;
             left: 0;
-            width: 600px;
+            width: 300px;
             background: #fff;
             box-shadow: 0 5px 15px rgba(0,0,0,0.1);
             display: none;
             z-index: 100;
-            padding: 20px;
+            padding: 15px;
         }
         
         .category:hover .category-dropdown {
             display: flex;
+            flex-direction: column;
         }
         
         .dropdown-image {
-            width: 200px;
-            height: 200px;
+            width: 100%;
+            height: auto;
+            max-height: 150px;
             object-fit: cover;
+            margin-bottom: 10px;
         }
         
         .dropdown-links {
-            margin-left: 20px;
+            margin-top: 10px;
             flex-grow: 1;
         }
         
@@ -160,7 +177,7 @@
         
         /* Section Robes */
         .dresses-section {
-            padding: 30px 50px;
+            padding: 30px 5%;
         }
         
         .dresses-header {
@@ -192,6 +209,7 @@
             border-radius: 20px;
             cursor: pointer;
             transition: all 0.3s;
+            margin-bottom: 5px;
         }
         
         .filter-btn:hover {
@@ -200,8 +218,8 @@
         
         .dress-grid {
             display: grid;
-            grid-template-columns: repeat(5, 1fr);
-            gap: 0;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 20px;
         }
         
         .dress-card {
@@ -217,7 +235,8 @@
         
         .dress-image {
             width: 100%;
-            height: 300px;
+            height: auto;
+            aspect-ratio: 3/4;
             object-fit: cover;
         }
         
@@ -251,12 +270,12 @@
             justify-content: space-between;
             max-width: 1200px;
             margin: 0 auto;
-            padding: 0 20px;
+            padding: 0 5%;
         }
         
         .footer-section {
             flex: 1;
-            min-width: 200px;
+            min-width: 250px;
             margin-bottom: 30px;
             padding: 0 15px;
         }
@@ -308,6 +327,7 @@
         .social-icons {
             display: flex;
             margin-top: 15px;
+            flex-wrap: wrap;
         }
         
         .social-icon {
@@ -320,6 +340,7 @@
             text-align: center;
             line-height: 36px;
             margin-right: 10px;
+            margin-bottom: 10px;
             transition: all 0.3s;
         }
         
@@ -359,7 +380,7 @@
         
         .footer-bottom {
             background-color: #eee;
-            padding: 20px 0;
+            padding: 20px 5%;
             text-align: center;
             color: #666;
             font-size: 14px;
@@ -368,10 +389,15 @@
         
         .payment-methods {
             margin-bottom: 15px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
         }
         
         .payment-methods span {
             margin-right: 10px;
+            margin-bottom: 10px;
             vertical-align: middle;
         }
         
@@ -382,6 +408,170 @@
         
         .copyright {
             margin: 0;
+        }
+        
+        /* Media Queries pour responsive */
+        @media screen and (max-width: 1024px) {
+            .categories {
+                gap: 10px;
+            }
+            
+            .category-title {
+                padding: 8px 12px;
+                font-size: 14px;
+            }
+            
+            .dress-grid {
+                grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+            }
+        }
+        
+        @media screen and (max-width: 768px) {
+            .navbar {
+                padding: 15px 4%;
+            }
+            
+            .search {
+                width: 160px;
+            }
+            
+            .user-nav {
+                gap: 15px;
+            }
+            
+            .main-title {
+                font-size: 28px;
+                margin: 20px 0;
+            }
+            
+            .categories {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            
+            .category {
+                width: calc(33.33% - 10px);
+            }
+            
+            .category-dropdown {
+                width: 250px;
+                left: -50%;
+            }
+            
+            .dress-grid {
+                grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            }
+            
+            .footer-section {
+                min-width: 200px;
+                flex: 0 0 50%;
+            }
+        }
+        
+        @media screen and (max-width: 576px) {
+            .navbar {
+                justify-content: center;
+                flex-direction: column;
+            }
+            
+            .search {
+                width: 100%;
+                margin-bottom: 10px;
+            }
+            
+            .user-nav {
+                width: 100%;
+                justify-content: space-around;
+                margin-top: 10px;
+            }
+            
+            .main-title {
+                font-size: 24px;
+            }
+            
+            .category {
+                width: calc(50% - 10px);
+            }
+            
+            .category-title {
+                font-size: 12px;
+                padding: 6px 10px;
+            }
+            
+            .category-dropdown {
+                width: 200px;
+            }
+            
+            .dropdown-image {
+                max-height: 120px;
+            }
+            
+            .dress-filters {
+                justify-content: center;
+            }
+            
+            .dress-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 10px;
+            }
+            
+            .dress-image {
+                height: auto;
+            }
+            
+            .dress-info {
+                padding: 10px;
+            }
+            
+            .dress-name {
+                font-size: 14px;
+            }
+            
+            .footer-section {
+                flex: 0 0 100%;
+            }
+            
+            /* Menu burger pour mobile */
+            .menu-toggle {
+                display: block;
+                margin-top: 10px;
+            }
+            
+            .categories {
+                display: none;
+                flex-direction: column;
+                width: 100%;
+            }
+            
+            .categories.active {
+                display: flex;
+            }
+            
+            .category {
+                width: 100%;
+            }
+            
+            .category-dropdown {
+                position: static;
+                width: 100%;
+                display: none;
+                box-shadow: none;
+                padding: 10px;
+                margin-top: 5px;
+                border-top: 1px solid #eee;
+            }
+            
+            .category.active .category-dropdown {
+                display: block;
+            }
+            
+            .category:hover .category-dropdown {
+                display: none;
+            }
+            
+            .category.active .category-title {
+                border-bottom: 2px solid #333;
+            }
         }
     </style>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
@@ -401,18 +591,23 @@
         </div>
         
         <div class="user-nav">
-            <a href="#">Ma liste d'envie</a>
-            <a href="compte.html">Mon compte</a>
-            <a href="#">Panier</a>
-            <a href="connexion.html">Connexion</a>
+            <a href="wishlist.html"><i class="far fa-heart"></i> Liste</a>
+            <a href="compte.html"><i class="far fa-user"></i> Compte</a>
+            <a href="#"><i class="fas fa-shopping-bag"></i> Panier</a>
+            <a href="connexion.html"><i class="fas fa-sign-in-alt"></i> Connexion</a>
         </div>
     </div>
     
     <!-- Titre principal -->
     <h1 class="main-title">Nazari Mode</h1>
     
+    <!-- Menu burger pour mobile -->
+    <div class="menu-toggle" id="menuToggle">
+        <i class="fas fa-bars"></i> Catégories
+    </div>
+    
     <!-- Catégories -->
-    <div class="categories">
+    <div class="categories" id="categories">
         <div class="category">
             <div class="category-title">Nouveautés</div>
             <div class="category-dropdown">
@@ -423,8 +618,6 @@
                         <li><a href="#">Derniers arrivages</a></li>
                         <li><a href="#">Collection printemps-été</a></li>
                         <li><a href="#">Éditions limitées</a></li>
-                        <li><a href="#">Collaborations exclusives</a></li>
-                        <li><a href="#">Pièces signatures</a></li>
                     </ul>
                 </div>
             </div>
@@ -435,14 +628,12 @@
             <div class="category-dropdown">
                 <img src="/jilbab6.png" alt="Vêtements" class="dropdown-image">
                 <div class="dropdown-links">
-                    <h4>Notre sélection de vêtements</h4>
+                    <h4>Notre sélection</h4>
                     <ul>
-                        <li><a href="/{18FF25CD-D5F2-4AD4-9A2A-3D42EE249773}.png">Robes</a></li>
-                        <li><a href="jilbab1.png">Tops</a></li>
-                        <li><a href="jilbab2.png">Jupes</a></li>
-                        <li><a href="jilbab3.png">Pantalons</a></li>
-                        <li><a href="jilbab4.png">Vestes & Manteaux</a></li>
-                        <li><a href="jilbab5.png">Lingerie</a></li>
+                        <li><a href="#">Robes</a></li>
+                        <li><a href="#">Tops</a></li>
+                        <li><a href="#">Jupes</a></li>
+                        <li><a href="#">Pantalons</a></li>
                     </ul>
                 </div>
             </div>
@@ -453,13 +644,11 @@
             <div class="category-dropdown">
                 <img src="/jilbab7.png" alt="Tendances" class="dropdown-image">
                 <div class="dropdown-links">
-                    <h4>Les tendances du moment</h4>
+                    <h4>Les tendances</h4>
                     <ul>
                         <li><a href="#">Style bohème</a></li>
                         <li><a href="#">Minimalisme</a></li>
                         <li><a href="#">Rétro années 90</a></li>
-                        <li><a href="#">Élégance parisienne</a></li>
-                        <li><a href="#">Imprimés floraux</a></li>
                     </ul>
                 </div>
             </div>
@@ -470,14 +659,11 @@
             <div class="category-dropdown">
                 <img src="jilbab8.png" alt="Robes" class="dropdown-image">
                 <div class="dropdown-links">
-                    <h4>Nos collections de robes</h4>
+                    <h4>Nos collections</h4>
                     <ul>
                         <li><a href="#">Robes de soirée</a></li>
                         <li><a href="#">Robes longues</a></li>
                         <li><a href="#">Robes midi</a></li>
-                        <li><a href="#">Robes courtes</a></li>
-                        <li><a href="#">Robes d'été</a></li>
-                        <li><a href="#">Robes de cocktail</a></li>
                     </ul>
                 </div>
             </div>
@@ -493,8 +679,6 @@
                         <li><a href="#">T-shirts</a></li>
                         <li><a href="#">Chemisiers</a></li>
                         <li><a href="#">Bodys</a></li>
-                        <li><a href="#">Crop tops</a></li>
-                        <li><a href="#">Débardeurs</a></li>
                     </ul>
                 </div>
             </div>
@@ -505,13 +689,11 @@
             <div class="category-dropdown">
                 <img src="/jilbab10.png" alt="Ensembles" class="dropdown-image">
                 <div class="dropdown-links">
-                    <h4>Nos ensembles coordonnés</h4>
+                    <h4>Nos ensembles</h4>
                     <ul>
                         <li><a href="#">Tailleurs</a></li>
-                        <li><a href="#">Ensembles deux pièces</a></li>
-                        <li><a href="#">Ensembles sportswear</a></li>
-                        <li><a href="#">Ensembles de plage</a></li>
-                        <li><a href="#">Ensembles de soirée</a></li>
+                        <li><a href="#">Deux pièces</a></li>
+                        <li><a href="#">Sportswear</a></li>
                     </ul>
                 </div>
             </div>
@@ -522,7 +704,7 @@
     <section class="dresses-section">
         <div class="dresses-header">
             <h2>Robes</h2>
-            <p>Découvrez notre collection exclusive de robes élégantes pour toutes les occasions. Des pièces soigneusement sélectionnées pour sublimer votre silhouette et refléter votre personnalité. Qualité, style et raffinement sont au rendez-vous dans chacune de nos créations.</p>
+            <p>Découvrez notre collection exclusive de robes élégantes pour toutes les occasions. Des pièces soigneusement sélectionnées pour sublimer votre silhouette et refléter votre personnalité.</p>
         </div>
         
         <div class="dress-filters">
@@ -534,13 +716,6 @@
             <button class="filter-btn">Robes de cocktail</button>
             <button class="filter-btn">Robes bohèmes</button>
             <button class="filter-btn">Robes moulantes</button>
-            <button class="filter-btn">Robes à motifs</button>
-            <button class="filter-btn">Robes à volants</button>
-            <button class="filter-btn">Robes décontractées</button>
-            <button class="filter-btn">Robes de plage</button>
-            <button class="filter-btn">Robes de bal</button>
-            <button class="filter-btn">Robes asymétriques</button>
-            <button class="filter-btn">Robes dos-nu</button>
         </div>
         
         <div class="dress-grid">
@@ -673,10 +848,10 @@
                 <h3 class="footer-title">À propos de Nazari Mode</h3>
                 <p>Depuis 2010, Nazari Mode propose des collections de vêtements élégants et raffinés pour toutes les femmes qui souhaitent allier style et confort au quotidien.</p>
                 <div class="social-icons">
-                    <a href="#" class="social-icon"><i class="fa fa-facebook"></i></a>
-                    <a href="#" class="social-icon"><i class="fa fa-instagram"></i></a>
-                    <a href="#" class="social-icon"><i class="fa fa-pinterest"></i></a>
-                    <a href="#" class="social-icon"><i class="fa fa-twitter"></i></a>
+                    <a href="#" class="social-icon"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" class="social-icon"><i class="fab fa-instagram"></i></a>
+                    <a href="#" class="social-icon"><i class="fab fa-pinterest-p"></i></a>
+                    <a href="#" class="social-icon"><i class="fab fa-twitter"></i></a>
                 </div>
             </div>
             
@@ -715,9 +890,9 @@
             
             <div class="footer-section contact">
                 <h3 class="footer-title">Contact</h3>
-                <p><i class="fa fa-map-marker"></i> 123 Avenue de la Mode, 75008 Paris</p>
-                <p><i class="fa fa-phone"></i> +33 1 23 45 67 89</p>
-                <p><i class="fa fa-envelope"></i> contact@nazarimode.com</p>
+                <p><i class="fas fa-map-marker-alt"></i> 123 Avenue de la Mode, 75008 Paris</p>
+                <p><i class="fas fa-phone-alt"></i> +33 1 23 45 67 89</p>
+                <p><i class="fas fa-envelope"></i> contact@nazarimode.com</p>
                 <div class="newsletter">
                     <h4>Newsletter</h4>
                     <input type="email" placeholder="Votre email">
@@ -737,5 +912,30 @@
             <p class="copyright">© 2025 Nazari Mode. Tous droits réservés.</p>
         </div>
     </footer>
+
+    <!-- JavaScript pour le menu mobile -->
+    <script>
+        // Menu burger pour mobile
+        document.getElementById('menuToggle').addEventListener('click', function() {
+            document.getElementById('categories').classList.toggle('active');
+        });
+
+        // Pour les catégories sur mobile
+        if (window.innerWidth <= 576) {
+            const categories = document.querySelectorAll('.category');
+            categories.forEach(category => {
+                category.addEventListener('click', function() {
+                    // Ferme toutes les autres catégories
+                    categories.forEach(c => {
+                        if (c !== category) {
+                            c.classList.remove('active');
+                        }
+                    });
+                    // Toggle la catégorie cliquée
+                    this.classList.toggle('active');
+                });
+            });
+        }
+    </script>
 </body>
 </html>
