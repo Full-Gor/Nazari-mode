@@ -617,7 +617,7 @@
         
         <div class="user-nav">
             <a href="index.html"><i class="fas fa-home"></i> Accueil</a>
-            <a href="liste-envie.html" class="active-nav"><i class="far fa-heart"></i> Liste d'envie</a>
+            <a href="wishlist.html" class="active-nav"><i class="far fa-heart"></i> Liste d'envie</a>
             <a href="compte.html"><i class="far fa-user"></i> Mon compte</a>
             <a href="panier.html"><i class="fas fa-shopping-bag"></i> Panier<span id="cart-count" class="cart-count">0</span></a>
             <a href="connexion.html"><i class="fas fa-sign-in-alt"></i> Connexion</a>
@@ -750,7 +750,7 @@
         </div>
     </section>
     
-    <!-- Section recommandations -->
+    <!-- Section recommandations --> 
     <section class="recommended-section">
         <h3 class="section-title">Vous pourriez aussi aimer</h3>
         
@@ -761,6 +761,7 @@
                     <div class="item-name">Robe Bohème Fleurie</div>
                     <div class="item-price">59,99 €</div>
                     <div class="item-actions">
+                        
                         <button class="item-btn add-cart-btn" data-id="6" data-name="Robe Bohème Fleurie" data-price="59.99" data-img="/jilbab2.png"><i class="fas fa-shopping-cart"></i> Ajouter</button>
                         <button class="item-btn remove-btn"><i class="far fa-heart"></i> Favori</button>
                     </div>
@@ -773,7 +774,7 @@
                     <div class="item-name">Robe Moulante Noire</div>
                     <div class="item-price">49,99 €</div>
                     <div class="item-actions">
-                        <button class="item-btn add-cart-btn"><i class="fas fa-shopping-cart"></i> Ajouter</button>
+                        <button class="item-btn add-cart-btn" data-id="7" data-name="Robe Moulante Noire" data-price="49.99" data-img="/jilbab3.png"><i class="fas fa-shopping-cart"></i> Ajouter</button>
                         <button class="item-btn remove-btn"><i class="far fa-heart"></i> Favori</button>
                     </div>
                 </div>
@@ -785,7 +786,7 @@
                     <div class="item-name">Robe Dos-nu Élégante</div>
                     <div class="item-price">85,99 €</div>
                     <div class="item-actions">
-                        <button class="item-btn add-cart-btn"><i class="fas fa-shopping-cart"></i> Ajouter</button>
+                        <button class="item-btn add-cart-btn" data-id="8" data-name="Robe Dos-nu Élégante" data-price="85.99" data-img="/jilbab8.png"><i class="fas fa-shopping-cart"></i> Ajouter</button>
                         <button class="item-btn remove-btn"><i class="far fa-heart"></i> Favori</button>
                     </div>
                 </div>
@@ -797,7 +798,7 @@
                     <div class="item-name">Robe Été Légère</div>
                     <div class="item-price">45,99 €</div>
                     <div class="item-actions">
-                        <button class="item-btn add-cart-btn"><i class="fas fa-shopping-cart"></i> Ajouter</button>
+                        <button class="item-btn add-cart-btn" data-id="9" data-name="Robe Été Légère" data-price="45.99" data-img="/jilbab9.png"><i class="fas fa-shopping-cart"></i> Ajouter</button>
                         <button class="item-btn remove-btn"><i class="far fa-heart"></i> Favori</button>
                     </div>
                 </div>
@@ -858,6 +859,198 @@
                 </ul>
             </div>
             
-            <div class="footer-section contact">
+            <body class="footer-section contact">
                 <h3 class="footer-title">Contact</h3>
                 <p><i class="fas fa-map-marker-alt"></i> 123 Avenue de la Mode, 75008 Paris</p>
+                <footer class="footer">
+                    <div class="footer-content">
+                        <!-- Les autres sections du footer sont correctes -->
+                        
+                        <div class="footer-section contact">
+                            <h3 class="footer-title">Contact</h3>
+                            <p><i class="fas fa-map-marker-alt"></i> 123 Avenue de la Mode, 75008 Paris</p>
+                            <p><i class="fas fa-phone-alt"></i> +33 1 23 45 67 89</p>
+                            <p><i class="fas fa-envelope"></i> contact@nazarimode.com</p>
+                            <div class="newsletter">
+                                <h4>Newsletter</h4>
+                                <input type="email" placeholder="Votre email">
+                                <button>S'abonner</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="footer-bottom">
+                        <div class="payment-methods">
+                            <span>Modes de paiement acceptés:</span>
+                            <img src="/api/placeholder/30/20" alt="Visa">
+                            <img src="/api/placeholder/30/20" alt="Mastercard">
+                            <img src="/api/placeholder/30/20" alt="PayPal">
+                            <img src="/api/placeholder/30/20" alt="American Express">
+                        </div>
+                        <p class="copyright">© 2025 Nazari Mode. Tous droits réservés.</p>
+                    </div>
+                </footer>
+                
+                <!-- Déplacer le script JavaScript ici, après le footer et avant la fermeture du body -->
+                <script>
+                // Initialisation du panier et de la liste d'envie à partir du localStorage
+                let cart = JSON.parse(localStorage.getItem('nazari-cart')) || [];
+                let wishlist = JSON.parse(localStorage.getItem('nazari-wishlist')) || [1, 2, 3, 4, 5]; // IDs des articles dans la liste
+                
+                // Mise à jour du compteur du panier
+                function updateCartCount() {
+                    const cartCount = document.getElementById('cart-count');
+                    if (cartCount) {
+                        const totalItems = cart.reduce((total, item) => total + item.quantity, 0);
+                        cartCount.textContent = totalItems;
+                        cartCount.style.display = totalItems > 0 ? 'inline-flex' : 'none';
+                    }
+                }
+                
+                // Fonction pour ajouter un article au panier
+                function addToCart(id, name, price, img, quantity = 1) {
+                    // Vérifier si l'article est déjà dans le panier
+                    const existingItem = cart.find(item => item.id === id);
+                    
+                    if (existingItem) {
+                        // Si oui, augmenter la quantité
+                        existingItem.quantity += quantity;
+                    } else {
+                        // Sinon, ajouter le nouvel article
+                        cart.push({
+                            id,
+                            name,
+                            price,
+                            img,
+                            quantity
+                        });
+                    }
+                    
+                    // Sauvegarder le panier dans localStorage
+                    localStorage.setItem('nazari-cart', JSON.stringify(cart));
+                    
+                    // Mettre à jour l'affichage
+                    updateCartCount();
+                    
+                    // Afficher la notification
+                    showNotification(`"${name}" ajouté au panier`);
+                }
+                
+                // Retirer un article de la liste d'envie
+                function removeFromWishlist(id) {
+                    // Filtrer l'élément à supprimer
+                    wishlist = wishlist.filter(itemId => itemId !== id);
+                    
+                    // Sauvegarder la liste dans localStorage
+                    localStorage.setItem('nazari-wishlist', JSON.stringify(wishlist));
+                    
+                    // Masquer visuellement l'élément
+                    const wishlistItem = document.querySelector(`.wishlist-item [data-id="${id}"]`).closest('.wishlist-item');
+                    wishlistItem.style.opacity = '0';
+                    setTimeout(() => {
+                        wishlistItem.style.display = 'none';
+                        
+                        // Mettre à jour le compteur
+                        const wishlistCount = document.querySelector('.wishlist-count');
+                        wishlistCount.textContent = `${wishlist.length} article(s) dans votre liste d'envie`;
+                        
+                        // Afficher le message "liste vide" si nécessaire
+                        if (wishlist.length === 0) {
+                            document.querySelector('.wishlist-grid').style.display = 'none';
+                            document.querySelector('.empty-wishlist').style.display = 'block';
+                            document.querySelector('.wishlist-actions').style.display = 'none';
+                        }
+                    }, 300);
+                    
+                    // Afficher la notification
+                    showNotification("Article retiré de votre liste d'envie");
+                }
+                
+                // Fonction pour afficher une notification
+                function showNotification(message) {
+                    const notification = document.getElementById('notification');
+                    notification.textContent = message;
+                    notification.classList.add('show');
+                    
+                    // Ajouter le bouton de fermeture
+                    const closeButton = document.createElement('button');
+                    closeButton.classList.add('notification-close');
+                    closeButton.innerHTML = '&times;';
+                    closeButton.addEventListener('click', () => {
+                        notification.classList.remove('show');
+                    });
+                    notification.appendChild(closeButton);
+                    
+                    // Masquer la notification après 3 secondes
+                    setTimeout(() => {
+                        notification.classList.remove('show');
+                    }, 3000);
+                }
+                
+                // Ajouter des écouteurs d'événements une fois que le DOM est chargé
+                document.addEventListener('DOMContentLoaded', function() {
+                    // Mettre à jour le compteur du panier au chargement
+                    updateCartCount();
+                    
+                    // Gérer les boutons "Ajouter au panier"
+                    const addToCartButtons = document.querySelectorAll('.add-cart-btn');
+                    addToCartButtons.forEach(button => {
+                        button.addEventListener('click', function() {
+                            const id = parseInt(this.getAttribute('data-id'));
+                            const name = this.getAttribute('data-name');
+                            const price = parseFloat(this.getAttribute('data-price'));
+                            const img = this.getAttribute('data-img');
+                            
+                            addToCart(id, name, price, img);
+                        });
+                    });
+                    
+                    // Gérer les boutons "Retirer de la liste"
+                    const removeButtons = document.querySelectorAll('.wishlist-item .remove-btn');
+                    removeButtons.forEach(button => {
+                        button.addEventListener('click', function() {
+                            const id = parseInt(this.getAttribute('data-id'));
+                            if (id) {
+                                removeFromWishlist(id);
+                            }
+                        });
+                    });
+                    
+                    // Gérer le bouton "Tout ajouter au panier"
+                    document.getElementById('add-all-to-cart').addEventListener('click', function() {
+                        const allAddButtons = document.querySelectorAll('.wishlist-grid .add-cart-btn');
+                        allAddButtons.forEach(button => {
+                            const id = parseInt(button.getAttribute('data-id'));
+                            const name = button.getAttribute('data-name');
+                            const price = parseFloat(button.getAttribute('data-price'));
+                            const img = button.getAttribute('data-img');
+                            
+                            addToCart(id, name, price, img);
+                        });
+                        
+                        showNotification("Tous les articles ont été ajoutés au panier");
+                    });
+                    
+                    // Gérer le bouton "Vider la liste"
+                    document.getElementById('clear-wishlist').addEventListener('click', function() {
+                        // Vider la liste d'envie
+                        wishlist = [];
+                        localStorage.setItem('nazari-wishlist', JSON.stringify(wishlist));
+                        
+                        // Masquer la grille et afficher le message "liste vide"
+                        document.querySelector('.wishlist-grid').style.display = 'none';
+                        document.querySelector('.empty-wishlist').style.display = 'block';
+                        document.querySelector('.wishlist-actions').style.display = 'none';
+                        document.querySelector('.wishlist-count').textContent = '0 article(s) dans votre liste d'envie';
+                        
+                        showNotification("Votre liste d'envie a été vidée");
+                    });
+                    
+                    // Fermer la notification en cliquant sur le bouton
+                    document.querySelector('.notification-close').addEventListener('click', function() {
+                        document.getElementById('notification').classList.remove('show');
+                    });
+                });
+                </script>
+                </body>
+                </html>
