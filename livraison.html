@@ -1,0 +1,700 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nazari Mode - Livraison</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+        
+        body {
+            background-color: #f9f9f9;
+        }
+        
+        /* Bandeau promotionnel */
+        .promo-banner {
+            background-color: #000;
+            color: #fff;
+            padding: 8px 0;
+            text-align: center;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .promo-text {
+            white-space: nowrap;
+            animation: scroll-left 20s linear infinite;
+            font-weight: bold;
+            font-size: 12px;
+        }
+        
+        @keyframes scroll-left {
+            0% { transform: translateX(100%); }
+            100% { transform: translateX(-100%); }
+        }
+        
+        /* Barre de navigation */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 5%;
+            background-color: #fff;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            flex-wrap: wrap;
+        }
+        
+        .search {
+            display: flex;
+            align-items: center;
+            width: 200px;
+            margin: 5px 0;
+        }
+        
+        .search input {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 20px;
+        }
+        
+        .user-nav {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            margin: 5px 0;
+        }
+        
+        .user-nav a {
+            text-decoration: none;
+            color: #333;
+            font-size: 14px;
+        }
+        
+        .active-nav {
+            font-weight: bold;
+            position: relative;
+        }
+        
+        .active-nav::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background-color: #e91e63;
+        }
+        
+        .cart-count {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #e91e63;
+            color: white;
+            border-radius: 50%;
+            width: 18px;
+            height: 18px;
+            font-size: 11px;
+            margin-left: 5px;
+            font-weight: bold;
+        }
+        
+        /* Titre principal */
+        .main-title {
+            text-align: center;
+            font-family: 'Cinzel', serif;
+            font-size: 32px;
+            margin: 30px 0 20px;
+            color: #333;
+        }
+        
+        .page-title {
+            text-align: center;
+            font-size: 24px;
+            margin-bottom: 30px;
+            color: #666;
+        }
+        
+        /* Navigation secondaire */
+        .secondary-nav {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+            padding: 0 5%;
+        }
+        
+        .secondary-nav a {
+            text-decoration: none;
+            color: #333;
+            padding: 8px 15px;
+            border-radius: 20px;
+            background-color: #f0f0f0;
+            transition: all 0.3s;
+        }
+        
+        .secondary-nav a:hover,
+        .secondary-nav a.active {
+            background-color: #333;
+            color: #fff;
+        }
+        
+        /* Contenu principal */
+        .main-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px 5% 50px;
+        }
+        
+        .section-title {
+            font-size: 22px;
+            color: #333;
+            margin: 40px 0 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #ddd;
+            font-family: 'Cinzel', serif;
+        }
+        
+        .section-subtitle {
+            font-size: 18px;
+            color: #444;
+            margin: 30px 0 15px;
+        }
+        
+        p {
+            line-height: 1.6;
+            margin-bottom: 15px;
+            color: #555;
+        }
+        
+        .info-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0 30px;
+        }
+        
+        .info-table th, .info-table td {
+            border: 1px solid #ddd;
+            padding: 12px 15px;
+            text-align: left;
+        }
+        
+        .info-table th {
+            background-color: #f8f8f8;
+            font-weight: bold;
+            color: #333;
+        }
+        
+        .info-table tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        
+        .info-box {
+            background-color: #f8f8f8;
+            border-left: 4px solid #e91e63;
+            padding: 15px 20px;
+            margin: 20px 0;
+            color: #555;
+        }
+        
+        .benefit-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+        
+        .benefit-item {
+            background-color: #fff;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            transition: all 0.3s;
+        }
+        
+        .benefit-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .benefit-icon {
+            font-size: 30px;
+            color: #e91e63;
+            margin-bottom: 15px;
+        }
+        
+        .benefit-title {
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #333;
+        }
+        
+        ul, ol {
+            margin: 15px 0;
+            padding-left: 20px;
+        }
+        
+        li {
+            margin-bottom: 10px;
+            color: #555;
+        }
+        
+        /* Footer */
+        .footer {
+            background-color: #f5f5f5;
+            color: #333;
+            padding: 50px 0 0 0;
+            margin-top: 50px;
+            border-top: 1px solid #ddd;
+        }
+        
+        .footer-content {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 5%;
+        }
+        
+        .footer-section {
+            flex: 1;
+            min-width: 250px;
+            margin-bottom: 30px;
+            padding: 0 15px;
+        }
+        
+        .footer-title {
+            font-family: 'Cinzel', serif;
+            font-size: 18px;
+            margin-bottom: 20px;
+            position: relative;
+            padding-bottom: 10px;
+        }
+        
+        .footer-title:after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 40px;
+            height: 2px;
+            background-color: #333;
+        }
+        
+        .footer-section p {
+            line-height: 1.6;
+            margin-bottom: 15px;
+            color: #666;
+        }
+        
+        .footer-section ul {
+            list-style: none;
+            margin-top: 0;
+        }
+        
+        .footer-section ul li {
+            margin-bottom: 8px;
+        }
+        
+        .footer-section ul li a {
+            color: #666;
+            text-decoration: none;
+            transition: color 0.3s;
+            font-size: 13px;
+        }
+        
+        .footer-section ul li a:hover {
+            color: #000;
+        }
+        
+        .social-icons {
+            display: flex;
+            margin-top: 15px;
+            flex-wrap: wrap;
+        }
+        
+        .social-icon {
+            display: inline-block;
+            width: 36px;
+            height: 36px;
+            background-color: #333;
+            color: #fff;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 36px;
+            margin-right: 10px;
+            margin-bottom: 10px;
+            transition: all 0.3s;
+        }
+        
+        .social-icon:hover {
+            background-color: #000;
+            transform: translateY(-3px);
+        }
+        
+        .footer-bottom {
+            background-color: #eee;
+            padding: 20px 5%;
+            text-align: center;
+            color: #666;
+            font-size: 14px;
+            margin-top: 30px;
+        }
+        
+        .payment-methods {
+            margin-bottom: 15px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+        }
+        
+        .payment-methods span {
+            margin-right: 10px;
+            margin-bottom: 10px;
+            vertical-align: middle;
+        }
+        
+        .payment-methods img {
+            margin: 0 5px;
+            vertical-align: middle;
+        }
+        
+        .copyright {
+            margin: 0;
+        }
+        
+        /* Media Queries */
+        @media screen and (max-width: 768px) {
+            .benefit-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .info-table {
+                font-size: 14px;
+            }
+            
+            .info-table th, .info-table td {
+                padding: 8px 10px;
+            }
+            
+            .footer-section {
+                min-width: 200px;
+                flex: 0 0 50%;
+            }
+        }
+        
+        @media screen and (max-width: 576px) {
+            .navbar {
+                justify-content: center;
+                flex-direction: column;
+            }
+            
+            .search {
+                width: 100%;
+                margin-bottom: 10px;
+            }
+            
+            .user-nav {
+                width: 100%;
+                justify-content: space-around;
+                margin-top: 10px;
+            }
+            
+            .main-title {
+                font-size: 24px;
+            }
+            
+            .page-title {
+                font-size: 20px;
+            }
+            
+            .section-title {
+                font-size: 20px;
+            }
+            
+            .section-subtitle {
+                font-size: 16px;
+            }
+            
+            .footer-section {
+                flex: 0 0 100%;
+            }
+            
+            .info-table {
+                font-size: 12px;
+            }
+            
+            .info-table th, .info-table td {
+                padding: 6px 8px;
+            }
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+</head>
+<body>
+    <!-- Bandeau promotionnel avec animation -->
+    <div class="promo-banner">
+        <div class="promo-text">
+            -30% SUR LA NOUVELLE COLLECTION "NAZARI30" • LIVRAISON GRATUITE DÈS 50€
+        </div>
+    </div>
+    
+    <!-- Barre de navigation -->
+    <div class="navbar">
+        <div class="search">
+            <input type="text" placeholder="Rechercher...">
+        </div>
+        
+        <div class="user-nav">
+            <a href="index.html"><i class="fas fa-home"></i> Accueil</a>
+            <a href="wishlist.html"><i class="far fa-heart"></i> Liste d'envie</a>
+            <a href="compte.html"><i class="far fa-user"></i> Mon compte</a>
+            <a href="panier.html"><i class="fas fa-shopping-bag"></i> Panier<span id="cart-count" class="cart-count">0</span></a>
+            <a href="connexion.html"><i class="fas fa-sign-in-alt"></i> Connexion</a>
+        </div>
+    </div>
+    
+    <!-- Titre principal -->
+    <h1 class="main-title"><a href="index.html" style="text-decoration: none; color: inherit;">Nazari Mode</a></h1>
+    <h2 class="page-title">Informations de livraison</h2>
+    
+    <!-- Navigation secondaire -->
+    <div class="secondary-nav">
+        <a href="index.html">Accueil</a>
+        <a href="livraison.html" class="active">Livraison</a>
+        <a href="retours.html">Retours</a>
+        <a href="faq.html">FAQ</a>
+        <a href="cgv.html">CGV</a>
+        <a href="confidentialite.html">Confidentialité</a>
+    </div>
+    
+    <!-- Contenu principal -->
+    <div class="main-content">
+        <div class="info-box">
+            <p><strong>Bonne nouvelle !</strong> Profitez de la livraison gratuite pour toute commande supérieure à 50€.</p>
+        </div>
+        
+        <h3 class="section-title">Nos options de livraison</h3>
+        
+        <p>Chez Nazari Mode, nous vous proposons plusieurs options de livraison pour répondre à vos besoins. Que vous souhaitiez recevoir votre commande rapidement ou que vous préfériez une livraison économique, nous avons la solution qui vous convient.</p>
+        
+        <table class="info-table">
+            <thead>
+                <tr>
+                    <th>Mode de livraison</th>
+                    <th>Délai estimé</th>
+                    <th>Frais de livraison</th>
+                    <th>Gratuit à partir de</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Standard</td>
+                    <td>3 à 5 jours ouvrés</td>
+                    <td>4,99 €</td>
+                    <td>50 €</td>
+                </tr>
+                <tr>
+                    <td>Express</td>
+                    <td>1 à 2 jours ouvrés</td>
+                    <td>9,99 €</td>
+                    <td>100 €</td>
+                </tr>
+                <tr>
+                    <td>Point Relais</td>
+                    <td>3 à 6 jours ouvrés</td>
+                    <td>3,99 €</td>
+                    <td>50 €</td>
+                </tr>
+                <tr>
+                    <td>Premium (avec essayage)</td>
+                    <td>2 à 3 jours ouvrés</td>
+                    <td>12,99 €</td>
+                    <td>150 €</td>
+                </tr>
+            </tbody>
+        </table>
+        
+        <h3 class="section-subtitle">Livraison Standard</h3>
+        <p>Notre service de livraison standard permet de recevoir votre commande sous 3 à 5 jours ouvrés. C'est l'option idéale pour les achats qui ne sont pas urgents. Les frais de livraison standard sont de 4,99 € et sont offerts pour toute commande supérieure à 50 €.</p>
+        
+        <h3 class="section-subtitle">Livraison Express</h3>
+        <p>Si vous avez besoin de recevoir rapidement votre commande, notre service de livraison express est fait pour vous. Votre colis sera livré sous 1 à 2 jours ouvrés. Les frais de livraison express s'élèvent à 9,99 € et sont offerts pour toute commande supérieure à 100 €.</p>
+        
+        <h3 class="section-subtitle">Livraison en Point Relais</h3>
+        <p>Vous n'êtes pas disponible pour réceptionner votre colis à domicile ? Optez pour la livraison en point relais. Votre commande sera livrée dans un point relais près de chez vous sous 3 à 6 jours ouvrés. Les frais de livraison en point relais sont de 3,99 € et sont offerts pour toute commande supérieure à 50 €.</p>
+        
+        <h3 class="section-subtitle">Livraison Premium avec essayage</h3>
+        <p>Notre service de livraison premium avec essayage vous permet d'essayer vos vêtements à la livraison avant acceptation. Les articles qui ne vous conviennent pas peuvent être immédiatement retournés au livreur. Cette option est disponible sous 2 à 3 jours ouvrés pour 12,99 € et est offerte pour toute commande supérieure à 150 €.</p>
+        
+        <h3 class="section-title">Suivi de commande</h3>
+        
+        <p>Vous pouvez suivre l'état de votre commande à tout moment en vous connectant à votre compte client ou en utilisant le numéro de suivi qui vous a été communiqué par email après la validation de votre commande.</p>
+        
+        <h3 class="section-title">Zones de livraison</h3>
+        
+        <p>Nazari Mode livre dans toute la France métropolitaine, ainsi que dans les pays suivants :</p>
+        
+        <ul>
+            <li>Belgique (délai supplémentaire : 1-2 jours)</li>
+            <li>Luxembourg (délai supplémentaire : 1-2 jours)</li>
+            <li>Suisse (délai supplémentaire : 2-3 jours)</li>
+            <li>Allemagne (délai supplémentaire : 2-3 jours)</li>
+            <li>Italie (délai supplémentaire : 2-3 jours)</li>
+            <li>Espagne (délai supplémentaire : 2-3 jours)</li>
+            <li>Royaume-Uni (délai supplémentaire : 2-4 jours)</li>
+        </ul>
+        
+        <p>Pour toute livraison internationale, des frais supplémentaires peuvent s'appliquer. Veuillez consulter le récapitulatif de votre commande pour connaître le montant exact des frais de livraison.</p>
+        
+        <div class="info-box">
+            <p><strong>Remarque importante :</strong> Les délais de livraison sont donnés à titre indicatif et peuvent varier en fonction des conditions météorologiques, des périodes de forte affluence ou d'autres événements exceptionnels.</p>
+        </div>
+        
+        <h3 class="section-title">Nos engagements</h3>
+        
+        <div class="benefit-grid">
+            <div class="benefit-item">
+                <div class="benefit-icon"><i class="fas fa-truck"></i></div>
+                <div class="benefit-title">Livraison fiable</div>
+                <p>Nous collaborons avec les meilleurs transporteurs pour vous garantir une livraison fiable et dans les délais.</p>
+            </div>
+            
+            <div class="benefit-item">
+                <div class="benefit-icon"><i class="fas fa-box-open"></i></div>
+                <div class="benefit-title">Emballage soigné</div>
+                <p>Vos articles sont soigneusement emballés pour éviter tout dommage pendant le transport.</p>
+            </div>
+            
+            <div class="benefit-item">
+                <div class="benefit-icon"><i class="fas fa-shipping-fast"></i></div>
+                <div class="benefit-title">Options flexibles</div>
+                <p>Choisissez l'option de livraison qui correspond le mieux à vos besoins et à votre budget.</p>
+            </div>
+            
+            <div class="benefit-item">
+                <div class="benefit-icon"><i class="fas fa-sync-alt"></i></div>
+                <div class="benefit-title">Retours faciles</div>
+                <p>Si vous n'êtes pas satisfait(e), nos conditions de retour sont simples et avantageuses.</p>
+            </div>
+        </div>
+        
+        <h3 class="section-title">Questions fréquentes sur la livraison</h3>
+        
+        <h3 class="section-subtitle">Comment suivre ma commande ?</h3>
+        <p>Après la validation de votre commande, vous recevrez un email contenant un numéro de suivi. Vous pourrez utiliser ce numéro pour suivre l'état de votre commande sur notre site ou sur le site du transporteur.</p>
+        
+        <h3 class="section-subtitle">Puis-je modifier l'adresse de livraison après avoir passé commande ?</h3>
+        <p>Il est possible de modifier l'adresse de livraison uniquement si votre commande n'a pas encore été préparée. Pour cela, contactez rapidement notre service client par téléphone ou par email.</p>
+        
+        <h3 class="section-subtitle">Que faire si je ne suis pas présent(e) lors de la livraison ?</h3>
+        <p>Si vous n'êtes pas présent(e) lors de la livraison, le livreur laissera un avis de passage dans votre boîte aux lettres. Vous pourrez alors reprogrammer la livraison ou retirer votre colis au point de retrait indiqué sur l'avis de passage.</p>
+        
+        <p>Pour toute question supplémentaire concernant nos services de livraison, n'hésitez pas à contacter notre service client par téléphone au +33 1 23 45 67 89 ou par email à <a href="mailto:contact@nazarimode.com">contact@nazarimode.com</a>.</p>
+    </div>
+    
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section about">
+                <h3 class="footer-title">À propos de Nazari Mode</h3>
+                <p>Depuis 2010, Nazari Mode propose des collections de vêtements élégants et raffinés pour toutes les femmes qui souhaitent allier style et confort au quotidien.</p>
+                <div class="social-icons">
+                    <a href="#" class="social-icon"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" class="social-icon"><i class="fab fa-instagram"></i></a>
+                    <a href="#" class="social-icon"><i class="fab fa-pinterest-p"></i></a>
+                    <a href="#" class="social-icon"><i class="fab fa-twitter"></i></a>
+                </div>
+            </div>
+            
+            <div class="footer-section links">
+                <h3 class="footer-title">Liens rapides</h3>
+                <ul>
+                    <li><a href="index.html">Accueil</a></li>
+                    <li><a href="nouveautes.html">Nouveautés</a></li>
+                    <li><a href="promotions.html">Promotions</a></li>
+                    <li><a href="catalogue.html">Catalogue</a></li>
+                    <li><a href="blog.html">Notre blog</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-section">
+                <h3 class="footer-title">Catégories</h3>
+                <ul>
+                    <li><a href="robes.html">Robes</a></li>
+                    <li><a href="tops.html">Tops</a></li>
+                    <li><a href="jupes.html">Jupes</a></li>
+                    <li><a href="pantalons.html">Pantalons</a></li>
+                    <li><a href="accessoires.html">Accessoires</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-section customer-service">
+                <h3 class="footer-title">Service client</h3>
+                <ul>
+                    <li><a href="livraison.html">Livraison</a></li>
+                    <li><a href="retours.html">Retours et échanges</a></li>
+                    <li><a href="faq.html">FAQ</a></li>
+                    <li><a href="cgv.html">Conditions générales</a></li>
+                    <li><a href="politique.html">Politique de confidentialité</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-section contact">
+                <h3 class="footer-title">Contact</h3>
+                <p><i class="fas fa-map-marker-alt"></i> 123 Avenue de la Mode, 75008 Paris</p>
+                <p><i class="fas fa-phone-alt"></i> +33 1 23 45 67 89</p>
+                <p><i class="fas fa-envelope"></i> contact@nazarimode.com</p>
+                <div class="newsletter">
+                    <h4>Newsletter</h4>
+                    <input type="email" placeholder="Votre email">
+                    <button>S'abonner</button>
+                </div>
+            </div>
+        </div>
+        
+        <div class="footer-bottom">
+            <div class="payment-methods">
+                <span>Modes de paiement acceptés:</span>
+                <img src="/api/placeholder/30/20" alt="Visa">
+                <img src="/api/placeholder/30/20" alt="Mastercard">
+                <img src="/api/placeholder/30/20" alt="PayPal">
+                <img src="/api/placeholder/30/20" alt="American Express">
+            </div>
+            <p class="copyright">© 2025 Nazari Mode. Tous droits réservés.</p>
+        </div>
+    </footer>
+
+    <!-- Script pour mettre à jour le compteur du panier -->
+    <script>
+        // Initialisation du panier à partir du localStorage
+        let cart = JSON.parse(localStorage.getItem('nazari-cart')) || [];
+        
+        // Mise à jour du compteur du panier
+        function updateCartCount() {
+            const cartCount = document.getElementById('cart-count');
+            if (cartCount) {
+                const totalItems = cart.reduce((total, item) => total + item.quantity, 0);
+                cartCount.textContent = totalItems;
+                cartCount.style.display = totalItems > 0 ? 'inline-flex' : 'none';
+            }
+        }
+        
+        // Mettre à jour le compteur au chargement de la page
+        document.addEventListener('DOMContentLoaded', function() {
+            updateCartCount();
+        });
+    </script>
+</body>
+</html>
